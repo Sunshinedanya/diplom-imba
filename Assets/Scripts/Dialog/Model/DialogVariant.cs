@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine.Events;
 
 namespace Dialog.Model
 {
@@ -14,6 +15,7 @@ namespace Dialog.Model
     {
         public string responses;
         public string NextNodeId;
+        public UnityEvent OnClick;
 
         public DialogueOption(string responses, string nextId)
         {
@@ -25,12 +27,20 @@ namespace Dialog.Model
     [Serializable]
     public class DialogueNode
     {
+        public string NodeId; // Новое поле для идентификатора узла
         public string CharacterId;
         public string Response;
         public List<DialogueOption> Options;
 
-        public DialogueNode(string response, string characterId, List<DialogueOption> options = null)
+        // Обновлённый конструктор
+        public DialogueNode(
+            string nodeId,
+            string response,
+            string characterId,
+            List<DialogueOption> options = null
+        )
         {
+            NodeId = nodeId;
             Response = response;
             CharacterId = characterId;
             Options = options ?? new List<DialogueOption>();

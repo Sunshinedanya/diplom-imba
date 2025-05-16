@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Events;
 
 namespace Player
 {
@@ -13,8 +14,25 @@ namespace Player
             
             instance = this;
         }
-        
-        public int ArtCount;
-        public bool HasKeys;
+
+        public int ArtCount { private set; get; }
+        public bool HasKeys{ private set; get; }
+
+        public UnityEvent<int> ArtAdded;
+        public UnityEvent<bool> GotKey;
+
+        public void KeyPickUp()
+        {
+            HasKeys = true;
+            
+            GotKey.Invoke(HasKeys);
+        }
+
+        public void ArtefactPickUp()
+        {
+            ArtCount++;
+            
+            ArtAdded.Invoke(ArtCount);
+        }
     }
 }

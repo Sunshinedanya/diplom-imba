@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Dialog.Model;
 using Interactable;
 using UnityEngine;
@@ -11,37 +12,25 @@ namespace Dialog.System
         public GameObject optionButtonPrefab;
         public Transform optionsContainer;
 
-        private Dictionary<string, DialogueNode> dialogue = new Dictionary<string, DialogueNode>();
+        [SerializeField] private List<DialogueNode> dialogue;
     
-        private void Start()
-        {
-            SetupDialogue();
-        }
-
-        private void SetupDialogue()
-        {
-            dialogue["start"] = new DialogueNode("Привет! Как дела?", "1", new List<DialogueOption>
-            {
-                new DialogueOption("Всё хорошо.", "good"),
-                new DialogueOption("Так себе.", "bad")
-            });
-
-            dialogue["good"] = new DialogueNode("Рад слышать!", "1");
-            dialogue["bad"] = new DialogueNode("Печально. Надеюсь, всё наладится.", "1");
-        }
-
         private void ShowNode(string nodeId)
         {
-            if (dialogue.TryGetValue(nodeId, out var node) == false) return;
+            // Ищем узел по ID в списке
+            var node = dialogue.FirstOrDefault(n => n.NodeId == nodeId);
+            if (node == null) return;
 
             DialogueController.instance.NewDialogueInstance(node.Response, node.CharacterId);
             ClearOptions();
 
             foreach (var option in node.Options)
             {
-                GameObject btn = Instantiate(optionButtonPrefab, optionsContainer);
+                var btn = Instantiate(optionButtonPrefab, optionsContainer);
                 btn.GetComponentInChildren<Text>().text = option.responses;
-                btn.GetComponent<Button>().onClick.AddListener(() => ShowNode(option.NextNodeId));
+                var btnComponent = btn.GetComponent<Button>();
+                
+                btnComponent.onClick.AddListener(() => ShowNode(option.NextNodeId));
+                btnComponent.onClick.AddListener(() => option.OnClick.Invoke());
             }
         }
 
@@ -63,5 +52,4 @@ namespace Dialog.System
             return "Поговорить";
         }
     }
-
 }
