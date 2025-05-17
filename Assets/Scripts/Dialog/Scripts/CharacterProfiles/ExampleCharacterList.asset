@@ -17,7 +17,7 @@ MonoBehaviour:
     characterID: 1
     characterDescription: 
     characterColor: {r: 0, g: 0, b: 0, a: 0}
-    characterSprite: {fileID: 0}
+    characterSprite: {fileID: 21300000, guid: 2862b13f7888c74459d32a6c61319758, type: 3}
     speechSFXBlips:
     - {fileID: 8300000, guid: 28f3156bb805c8640ac4ee00f7201d02, type: 3}
     - {fileID: 8300000, guid: 75be628f76ec72b4c936db9d2951c4f6, type: 3}
