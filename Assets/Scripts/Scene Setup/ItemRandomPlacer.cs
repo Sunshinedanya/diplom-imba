@@ -12,7 +12,7 @@ namespace Scene_Setup
         
         private void Awake()
         {
-            while (_itemsToSpawn.Count < 3)
+            while (_itemsToSpawn.Count < 2)
             {
                 var randomItem = _items[Random.Range(0, _items.Count)];
                 

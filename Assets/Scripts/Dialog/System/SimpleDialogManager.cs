@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Dialog.Model;
 using Interactable;
@@ -13,9 +14,12 @@ namespace Dialog.System
         public Transform optionsContainer;
 
         [SerializeField] private List<DialogueNode> dialogue;
-    
+
+        [SerializeField] private bool _keyMan;
+
         private void ShowNode(string nodeId)
         {
+            DialogueController.instance.ClearDialogueInstance();
             // Ищем узел по ID в списке
             var node = dialogue.FirstOrDefault(n => n.NodeId == nodeId);
             if (node == null) return;
@@ -25,6 +29,14 @@ namespace Dialog.System
 
             foreach (var option in node.Options)
             {
+                if (node.NodeId == "Key")
+                {
+                    if (Player.Player.instance.ArtCount < 3)
+                    {
+                        continue;
+                    }
+                }
+                
                 var btn = Instantiate(optionButtonPrefab, optionsContainer);
                 btn.GetComponentInChildren<Text>().text = option.responses;
                 var btnComponent = btn.GetComponent<Button>();
@@ -33,7 +45,7 @@ namespace Dialog.System
                 btnComponent.onClick.AddListener(() => option.OnClick.Invoke());
             }
         }
-
+        
         private void ClearOptions()
         {
             foreach (Transform child in optionsContainer)

@@ -9,6 +9,9 @@ namespace Scene_Setup
     {
         [SerializeField] private List<GameObject> artefacts;
 
+        [SerializeField] private GameObject portal;
+        [SerializeField] private GameObject endScreen;
+        
         private bool _ritualStarted;
         
         private void StartRitual()
@@ -18,6 +21,7 @@ namespace Scene_Setup
             foreach (var artefact in artefacts)
             {
                 artefact.SetActive(true);
+                portal.SetActive(true);
             }
         }
 

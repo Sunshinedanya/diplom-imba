@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEngine;
+using UnityEngine.Events;
 using ColorUtility = UnityEngine.ColorUtility;
 
 public class DialogueController : MonoBehaviour
@@ -52,6 +53,8 @@ public class DialogueController : MonoBehaviour
     private List<GameObject> dialogueInstanceQue = new List<GameObject>();
     private Coroutine queIterationCoroutine;
 
+    public UnityEvent onDialogueFinished;
+    
     private bool
         firstQueIndex = false; //Lets us know if this is the first textbox in the current que (IMPROVE THIS PLEASE)
 
@@ -99,7 +102,35 @@ public class DialogueController : MonoBehaviour
         }
     }
 
+    public void ClearDialogueInstance()
+    {
+        foreach (var dialogueInstance in dialogueInstanceQue)
+            Destroy(dialogueInstance);
+            
+        dialogueInstanceQue.Clear();
+        queIterationCoroutine = null;
+    }
+    
+    public void FullyNewDialogueInstance(string dialogue)
+    {
+        foreach (var dialogueInstance in dialogueInstanceQue)
+            Destroy(dialogueInstance);
+            
+        dialogueInstanceQue.Clear();
+        
+        NewDialogueInstance(dialogue);
+    }
 
+    public void FullyNewDialogueInstance(string dialogue, string characterID)
+    {
+        foreach (var dialogueInstance in dialogueInstanceQue)
+            Destroy(dialogueInstance);
+            
+        dialogueInstanceQue.Clear();
+        
+        NewDialogueInstance(dialogue, characterID);
+    }
+    
     private IEnumerator IterateQue()
     {
         dialogueInstanceQue[0].SetActive(true);
@@ -153,6 +184,7 @@ public class DialogueController : MonoBehaviour
         else
         {
             queIterationCoroutine = null;
+            onDialogueFinished.Invoke();
         }
     }
 
