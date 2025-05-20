@@ -84,6 +84,8 @@ namespace Scene_Setup
 
         private void StartEndDialogue()
         {
+            DialogueController.instance.ClearDialogueInstance();
+            
             DialogueController.instance.NewDialogueInstance("Ох, и шумные же вы... Ну что, попарились на славу?", "1");
             DialogueController.instance.NewDialogueInstance("Грустно с таким гостям прощаться...", "1");
             DialogueController.instance.NewDialogueInstance("Ну, с Богом... Только смотрите — не оглядывайтесь. А то... ", "1");

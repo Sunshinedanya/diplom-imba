@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Timer : MonoBehaviour
 {
@@ -11,18 +12,18 @@ public class Timer : MonoBehaviour
     public float currentTime { private set; get; }
     private bool isTimerRunning = false;
 
-    void Start()
+    [SerializeField] private Text timerText;
+
+    private void Start()
     {
         Instance = this;
     }
 
-    void Update()
+    private void Update()
     {
-        if (isTimerRunning && timerEnabled)
-        {
-            currentTime += Time.deltaTime;
-            //UpdateTimerDisplay();
-        }
+        if (!isTimerRunning || !timerEnabled) return;
+        currentTime += Time.deltaTime;
+        UpdateTimerDisplay();
     }
 
     // Запуск таймера
@@ -39,32 +40,20 @@ public class Timer : MonoBehaviour
     }
 
     // Получение текущего времени в секундах (int)
-    public int GetCurrentTime()
+    private int GetCurrentTime()
     {
         return Mathf.FloorToInt(currentTime);
     }
 
     // Обновление отображения таймера
-    // private void UpdateTimerDisplay()
-    // {
-    //     if (timerText != null)
-    //     {
-    //         int minutes = Mathf.FloorToInt(currentTime / 60f);
-    //         int seconds = Mathf.FloorToInt(currentTime % 60f);
-    //         timerText.text = $"{minutes:00}:{seconds:00}";
-    //     }
-    // }
-
-    // Пример использования при завершении уровня
-    public void OnLevelCompleted()
+    private void UpdateTimerDisplay()
     {
-        StopTimer();
-        int finalTime = GetCurrentTime();
-        
-        // Сохраняем результат в лидерборд
-        //Leaderboard.AddPlayerScore("PlayerName", finalTime);
-        Debug.Log($"Level completed in: {FormatTime(finalTime)}");
+        if (timerText == null) return;
+        var minutes = Mathf.FloorToInt(currentTime / 60f);
+        var seconds = Mathf.FloorToInt(currentTime % 60f);
+        timerText.text = $"{minutes:00}:{seconds:00}";
     }
+
 
     public string GetFormattedTime()
     {
@@ -72,10 +61,10 @@ public class Timer : MonoBehaviour
     }
     
     // Форматирование времени из int в строку
-    private string FormatTime(int totalSeconds)
+    private static string FormatTime(int totalSeconds)
     {
-        int minutes = totalSeconds / 60;
-        int seconds = totalSeconds % 60;
+        var minutes = totalSeconds / 60;
+        var seconds = totalSeconds % 60;
         return $"{minutes:00}:{seconds:00}";
     }
 }

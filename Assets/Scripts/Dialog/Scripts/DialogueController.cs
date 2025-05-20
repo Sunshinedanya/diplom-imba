@@ -104,11 +104,17 @@ public class DialogueController : MonoBehaviour
 
     public void ClearDialogueInstance()
     {
+        if (queIterationCoroutine != null)
+        {
+            StopCoroutine(queIterationCoroutine);
+            queIterationCoroutine = null;
+        }
+        
         foreach (var dialogueInstance in dialogueInstanceQue)
             Destroy(dialogueInstance);
             
         dialogueInstanceQue.Clear();
-        queIterationCoroutine = null;
+        onDialogueFinished.Invoke();
     }
     
     public void FullyNewDialogueInstance(string dialogue)
@@ -170,7 +176,7 @@ public class DialogueController : MonoBehaviour
         currentTextBox.DisplayText(textTypeSpeed);
 
         yield return new WaitForSeconds(displayLength);
-
+        
         var toDestroy = dialogueInstanceQue[0];
         dialogueInstanceQue.Remove(toDestroy);
         Destroy(toDestroy);

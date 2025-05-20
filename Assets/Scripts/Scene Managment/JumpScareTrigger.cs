@@ -7,6 +7,7 @@ public class JumpScareTrigger : MonoBehaviour
         if (!other.CompareTag("Player"))
             return;
 
+        DialogueController.instance.ClearDialogueInstance();
         DialogueController.instance.NewDialogueInstance("[EXAGGERATE]что происходит с зеркалом[/EXAGGERATE]");
         gameObject.SetActive(false);
     }

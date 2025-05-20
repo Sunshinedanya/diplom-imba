@@ -16,7 +16,7 @@ public class LastDayLeaderBoard : MonoBehaviour
     private void Start()
     {
         GetLeaderboard();
-        leaderboardName.text = TimeToStringShort(Timer.Instance.currentTime);
+        leaderboardTime.text = TimeToStringShort(Timer.Instance.currentTime);
     }
 
     public void GetLeaderboard()
