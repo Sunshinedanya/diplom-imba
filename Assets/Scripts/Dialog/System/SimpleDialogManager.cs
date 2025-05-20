@@ -14,9 +14,6 @@ namespace Dialog.System
         public Transform optionsContainer;
 
         [SerializeField] private List<DialogueNode> dialogue;
-
-        [SerializeField] private bool _keyMan;
-
         private void ShowNode(string nodeId)
         {
             DialogueController.instance.ClearDialogueInstance();
@@ -29,7 +26,7 @@ namespace Dialog.System
 
             foreach (var option in node.Options)
             {
-                if (node.NodeId == "Key")
+                if (option.NextNodeId == "Key")
                 {
                     if (Player.Player.instance.ArtCount < 3)
                     {

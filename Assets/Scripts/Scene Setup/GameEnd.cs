@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Interactable;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Scene_Setup
 {
@@ -10,9 +11,10 @@ namespace Scene_Setup
         [SerializeField] private List<GameObject> artefacts;
 
         [SerializeField] private GameObject portal;
-        [SerializeField] private GameObject endScreen;
+
+        [SerializeField] private UnityEvent onPortalEnter;
         
-        private bool _ritualStarted;
+        [SerializeField] private bool _ritualStarted;
         
         private void StartRitual()
         {
@@ -35,7 +37,7 @@ namespace Scene_Setup
             if(isPlayer == false)
                 return;
             
-            Debug.Log(other.gameObject.name);
+            onPortalEnter.Invoke();
         }
 
         public void Interact()

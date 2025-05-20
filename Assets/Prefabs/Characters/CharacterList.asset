@@ -25,13 +25,13 @@ MonoBehaviour:
     characterID: 2
     characterDescription: "\u043F\u0443\u0433\u0430\u043B\u043A\u0430 \u0432 \u0437\u0435\u0440\u043A\u0430\u043B\u0435"
     characterColor: {r: 0, g: 0, b: 0, a: 0}
-    characterSprite: {fileID: 0}
+    characterSprite: {fileID: 21300000, guid: 2862b13f7888c74459d32a6c61319758, type: 3}
     speechSFXBlips:
     - {fileID: 8300000, guid: 20aebd89d4cdbad429003c03468feee3, type: 3}
   - characterName: "\u0414\u0436\u0435\u0439\u043A\u043E\u0431"
     characterID: 3
     characterDescription: "\u043A\u043B\u044E\u0447\u0438 \u0443 \u043D\u0435\u0433\u043E"
     characterColor: {r: 0, g: 0, b: 0, a: 0}
-    characterSprite: {fileID: 0}
+    characterSprite: {fileID: 21300000, guid: 2862b13f7888c74459d32a6c61319758, type: 3}
     speechSFXBlips:
     - {fileID: 8300000, guid: 4d12b5e118e74b945ae06d6f791eee50, type: 3}

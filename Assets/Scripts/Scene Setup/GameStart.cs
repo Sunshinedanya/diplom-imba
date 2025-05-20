@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,13 +13,22 @@ namespace Scene_Setup
 
         [SerializeField] private Image bg;
 
+        [SerializeField] private GameObject leaderboard;
+        
+        private bool _firstLaunch = true;
+        
         private void Start()
         {
-            StartFirstDialogue();
+            if (_firstLaunch)
+                StartFirstDialogue();
+            else
+                GameOver();
         }
 
         private void StartFirstDialogue()
         {
+            _firstLaunch = false;
+            
             DialogueController.instance.NewDialogueInstance("Когда-то это место было просто баней. ");
             DialogueController.instance.NewDialogueInstance(
                 "Люди смеялись здесь, грели кости после долгой дороги");
@@ -64,6 +74,7 @@ namespace Scene_Setup
             DialogueController.instance.NewDialogueInstance("Ха-ха... Кажется, мы новых друзей нашли.", "3");
             
             DialogueController.instance.onDialogueFinished.AddListener(StartGame);
+            DialogueController.instance.onDialogueFinished.AddListener(()=>  DialogueController.instance.onDialogueFinished.RemoveListener(StartGame));
         }
 
         private void DelayBeforeFog()
@@ -71,11 +82,46 @@ namespace Scene_Setup
             StartCoroutine(DelayBeforeFogCor());
         }
 
+        private void StartEndDialogue()
+        {
+            DialogueController.instance.NewDialogueInstance("Ох, и шумные же вы... Ну что, попарились на славу?", "1");
+            DialogueController.instance.NewDialogueInstance("Грустно с таким гостям прощаться...", "1");
+            DialogueController.instance.NewDialogueInstance("Ну, с Богом... Только смотрите — не оглядывайтесь. А то... ", "1");
+            DialogueController.instance.NewDialogueInstance("...а то пар ещё не весь вышел. ", "1");
+            
+            DialogueController.instance.NewDialogueInstance("Ну что, друг, на этом наше путешествие в таинственную баню подошло к концу.");
+            DialogueController.instance.NewDialogueInstance("Надеюсь, удалось разгадать все её секреты... или хотя бы выбраться целыми.");
+            DialogueController.instance.NewDialogueInstance("А теперь — время подвести итоги! ");
+            DialogueController.instance.NewDialogueInstance("Но помните: старец всё ещё ждёт вас снова. ");
+            DialogueController.instance.NewDialogueInstance("Может быть, однажды вы снова услышите скрип двери и почувствуете запах берёзового веника...");
+            
+            DialogueController.instance.onDialogueFinished.AddListener(EnableLeaderboard);
+            DialogueController.instance.onDialogueFinished.AddListener(()=>  DialogueController.instance.onDialogueFinished.RemoveListener(EnableLeaderboard));
+        }
+        
         public void StartGame()
         {
             Debug.Log("game start");
             objectsToInvokeAfterCutScene.ForEach(obj => obj.SetActive(true));
             objectsToDivokeAfterCutScene.ForEach(obj => obj.SetActive(false));
+            
+            Timer.Instance.StartTimer();
+        }
+
+        public void GameOver()
+        {
+            Timer.Instance.StopTimer();
+            
+            bg.color = new Color(255, 255, 255, 255);
+            
+            Debug.Log("game over");
+            
+            StartEndDialogue();
+        }
+
+        public void EnableLeaderboard()
+        {
+            leaderboard.SetActive(true);
         }
     }
 }

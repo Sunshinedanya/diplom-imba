@@ -1,4 +1,5 @@
 ﻿
+using System;
 using UnityEngine;
 
 public class FirstPersonLook : MonoBehaviour
@@ -21,6 +22,11 @@ public class FirstPersonLook : MonoBehaviour
     {
         // Lock the mouse cursor to the game screen.
         Cursor.lockState = CursorLockMode.Locked;
+    }
+
+    private void OnDisable()
+    {
+        Cursor.lockState = CursorLockMode.None;
     }
 
     void Update()

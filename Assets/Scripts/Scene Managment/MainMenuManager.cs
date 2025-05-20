@@ -4,28 +4,19 @@ using UnityEngine.SceneManagement;
 
 public class MainMenuManager : MonoBehaviour
 {
-    public GameObject OptionsUI;
-    
     public void StarGame()
     {
         SceneManager.LoadSceneAsync(0);
     }
 
-    public void OpenOptions()
+    public void GetToMainMenu()
     {
-        OptionsUI.SetActive(true);
+        SceneManager.LoadSceneAsync(1);
     }
     
     public void QuitGame()
     {
         Debug.Log("quit");
         Application.Quit();
-    }
-
-
-    private void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.Escape))
-            OptionsUI.SetActive(false);
     }
 }
